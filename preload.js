@@ -39,13 +39,12 @@ window.addEventListener('DOMContentLoaded', () => {
     replaceText(`time`, `${hour}:${minutes}:${seconds} ${suffix}`);
   }
 
-
   try{
     getBTC();
 
     setInterval(()=> getBTC(), 30 * 1000);
 
-    setInterval(()=> getTime(), 500);
+    setInterval(()=> getTime(), 200);
   }catch(err){
     replaceText(`err`, err)
   }
