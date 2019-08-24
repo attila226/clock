@@ -1,0 +1,15 @@
+{
+  "name": "clock",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Attila Buturla",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^6.0.4"
+  }
+}
