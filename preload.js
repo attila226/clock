@@ -15,9 +15,28 @@ window.addEventListener('DOMContentLoaded', () => {
     .then(function(response) {
       return response.json();
     })
-  .then(function(myJson) {
-    replaceText(`btc`, formatter.format(myJson.data.amount));
-  });
+    .then(function(myJson) {
+      replaceText(`btc`, formatter.format(myJson.data.amount));
+    });
+  }
+
+  const getTime = () => {
+    const now = new Date();
+    let suffix = 'am';
+    let hour = now.getHours();
+    const minutes = now.getMinutes();
+    let  seconds = now.getSeconds();
+
+    if(hour > 12){
+      hour = hour - 12;
+      suffix = 'pm';
+    }
+    
+    if(seconds < 10){
+      seconds = `0${seconds}`
+    }
+
+    replaceText(`time`, `${hour}:${minutes}:${seconds} ${suffix}`);
   }
 
 
@@ -25,6 +44,8 @@ window.addEventListener('DOMContentLoaded', () => {
     getBTC();
 
     setInterval(()=> getBTC(), 30 * 1000);
+
+    setInterval(()=> getTime(), 500);
   }catch(err){
     replaceText(`err`, err)
   }
