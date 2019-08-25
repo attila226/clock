@@ -24,7 +24,7 @@ window.addEventListener('DOMContentLoaded', () => {
     const now = new Date();
     let suffix = 'am';
     let hour = now.getHours();
-    const minutes = now.getMinutes();
+    let minutes = now.getMinutes();
     let  seconds = now.getSeconds();
 
     if(hour > 12){
@@ -32,6 +32,10 @@ window.addEventListener('DOMContentLoaded', () => {
       suffix = 'pm';
     }
     
+    if(minutes < 10){
+      minutes = `0${minutes}`
+    }
+
     if(seconds < 10){
       seconds = `0${seconds}`
     }
