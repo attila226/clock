@@ -1,5 +1,5 @@
 window.addEventListener('DOMContentLoaded', () => {
-  let bitcoin, temperature;
+  let bitcoin, temperature = 72, isDisplayBtc = true;
 
   const replaceText = (selector, text) => {
     const element = document.getElementById(selector)
@@ -59,7 +59,17 @@ window.addEventListener('DOMContentLoaded', () => {
     }, 30 * 1000);
 
     //Update UI intervals
-    setInterval(()=> replaceText('area1', bitcoin), 5 * 1000);
+    setInterval(()=> {
+      if(isDisplayBtc){
+        replaceText('area1', temperature + String.fromCharCode(176));
+        document.getElementById('svg').style.display = 'none';
+        isDisplayBtc = false;
+      }else{
+        replaceText('area1', bitcoin);
+        document.getElementById('svg').style.display = null;
+        isDisplayBtc = true;
+      }
+    }, 8 * 1000);
 
     setInterval(()=> replaceText(`area2`, getTime()), 200);
   }catch(err){
