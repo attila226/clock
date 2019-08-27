@@ -19,6 +19,30 @@ window.addEventListener('DOMContentLoaded', () => {
     return await amount;
   }
 
+  const getWeather = async () => {
+    const p = {
+      "id": "2172797",
+      "units": "imperial",
+      "q": "san diego"
+    };
+
+    const url = `https://community-open-weather-map.p.rapidapi.com/weather?id=${p.id}&q=${p.q}&units=${p.units}`;
+
+    let response = await fetch(url, {
+      method: 'GET',
+      headers:{
+        "x-rapidapi-host": "community-open-weather-map.p.rapidapi.com",
+        "x-rapidapi-key": "ae15d43d72msh47e66be4e30c0ecp17c5bdjsn3520e4183b37"
+      }
+    });
+
+    let json = await response.json();
+
+    const temp = json.main.temp;
+
+    return await temp;
+  }
+
   const getTime = () => {
     const now = new Date();
     let suffix = 'am';
@@ -51,12 +75,22 @@ window.addEventListener('DOMContentLoaded', () => {
       replaceText('area1', bitcoin);
     });
 
+    getWeather().then(temp => {
+      temperature = temp;
+    });
+
     //Update data intervals
     setInterval(()=> {
       getBTC().then((amount) => {
         bitcoin = amount;
       });
     }, 30 * 1000);
+
+    setInterval(()=> {
+      getWeather().then((temp) => {
+        temperature = temp;
+      });
+    }, 60 * 1000);
 
     //Update UI intervals
     setInterval(()=> {
