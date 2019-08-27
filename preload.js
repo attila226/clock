@@ -1,4 +1,6 @@
 window.addEventListener('DOMContentLoaded', () => {
+  let bitcoin, temperature;
+
   const replaceText = (selector, text) => {
     const element = document.getElementById(selector)
     if (element) 
@@ -10,14 +12,11 @@ window.addEventListener('DOMContentLoaded', () => {
     currency: 'USD',
   });
 
-  const getBTC = () => {
-    fetch('https://api.coinbase.com/v2/prices/BTC-USD/buy')
-    .then(function(response) {
-      return response.json();
-    })
-    .then(function(myJson) {
-      replaceText(`btc`, formatter.format(myJson.data.amount));
-    });
+  const getBTC = async () => {
+    let response = await fetch('https://api.coinbase.com/v2/prices/BTC-USD/buy');
+    let myJson = await response.json();
+    let amount = myJson.data.amount;
+    return await amount;
   }
 
   const getTime = () => {
@@ -25,7 +24,7 @@ window.addEventListener('DOMContentLoaded', () => {
     let suffix = 'am';
     let hour = now.getHours();
     let minutes = now.getMinutes();
-    let  seconds = now.getSeconds();
+    let seconds = now.getSeconds();
 
     if(hour ===0){
       hour= 12; 
@@ -42,17 +41,29 @@ window.addEventListener('DOMContentLoaded', () => {
       seconds = `0${seconds}`
     }
 
-    replaceText(`time`, `${hour}:${minutes}:${seconds} ${suffix}`);
+    return`${hour}:${minutes}:${seconds} ${suffix}`;
   }
 
   try{
-    getBTC();
+    //Initialize data
+    getBTC().then((amount) => {
+      bitcoin = amount;
+      replaceText('area1', bitcoin);
+    });
 
-    setInterval(()=> getBTC(), 30 * 1000);
+    //Update data intervals
+    setInterval(()=> {
+      getBTC().then((amount) => {
+        bitcoin = amount;
+      });
+    }, 30 * 1000);
 
-    setInterval(()=> getTime(), 200);
+    //Update UI intervals
+    setInterval(()=> replaceText('area1', bitcoin), 5 * 1000);
+
+    setInterval(()=> replaceText(`area2`, getTime()), 200);
   }catch(err){
-    replaceText(`err`, err)
+    replaceText(`area2`, err)
   }
 
 })
