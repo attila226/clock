@@ -3,9 +3,40 @@
     text-align: center;
 }
 
+body {
+    background: 
+    linear-gradient(
+      rgba(0, 0, 0, 0.3),
+      rgba(0, 0, 0, 0.3)
+    ),
+    url('../resources/beach01.jpg');
+    background-size: cover;
+    color: white;
+}
+
+.backgroundImage{
+    background-image: url('../resources/beach01.jpg');
+    background-position: inherit; 
+    background-repeat: no-repeat; 
+    background-size: cover; 
+}
+
+.gradient1{
+    background: -webkit-linear-gradient(to right, #2193b0, #6dd5ed);
+    background: linear-gradient(to right, #2193b0, #6dd5ed);
+}
+
+.gradient2{
+    background: -webkit-linear-gradient(to right, #0072ff, #00c6ff);
+    background: linear-gradient(to right, #0072ff, #00c6ff);  
+}
+
 h1 {
     font-size: 6rem; 
 }
 img {
     height: 1em;
+}
+div {
+    font-size: 1.75rem;
 }
