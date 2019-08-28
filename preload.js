@@ -16,7 +16,7 @@ window.addEventListener('DOMContentLoaded', () => {
     let response = await fetch('https://api.coinbase.com/v2/prices/BTC-USD/buy');
     let myJson = await response.json();
     let amount = myJson.data.amount;
-    return await amount;
+    return await formatter.format(amount);
   }
 
   const getWeather = async () => {
@@ -70,7 +70,7 @@ window.addEventListener('DOMContentLoaded', () => {
     //Initialize data
     getBTC().then((amount) => {
       bitcoin = amount;
-      replaceText('area1', `$${bitcoin}`);
+      replaceText('area1', `${bitcoin}`);
     });
 
     getWeather().then(data => {
@@ -99,7 +99,7 @@ window.addEventListener('DOMContentLoaded', () => {
         document.getElementById('svg').src = weatherIcon;
         isDisplayBtc = false;
       }else{
-        replaceText('area1', `$${bitcoin}`);
+        replaceText('area1', `${bitcoin}`);
         document.getElementById('svg').src = './resources/BTC.svg';
         isDisplayBtc = true;
       }
