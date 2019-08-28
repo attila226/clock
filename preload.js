@@ -1,5 +1,5 @@
 window.addEventListener('DOMContentLoaded', () => {
-  let bitcoin, temperature = 72, isDisplayBtc = true;
+  let bitcoin, temperature, weatherIcon, isDisplayBtc = true;
 
   const replaceText = (selector, text) => {
     const element = document.getElementById(selector)
@@ -38,9 +38,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
     let json = await response.json();
 
-    const temp = json.main.temp;
-
-    return await temp;
+    return await {temp: json.main.temp, icon: json.weather[0].icon};
   }
 
   const getTime = () => {
@@ -72,11 +70,12 @@ window.addEventListener('DOMContentLoaded', () => {
     //Initialize data
     getBTC().then((amount) => {
       bitcoin = amount;
-      replaceText('area1', bitcoin);
+      replaceText('area1', `$${bitcoin}`);
     });
 
-    getWeather().then(temp => {
-      temperature = temp;
+    getWeather().then(data => {
+      temperature = data.temp;
+      weatherIcon = `http://api.openweathermap.org/img/w/${data.icon}.png`;
     });
 
     //Update data intervals
@@ -88,19 +87,20 @@ window.addEventListener('DOMContentLoaded', () => {
 
     setInterval(()=> {
       getWeather().then((temp) => {
-        temperature = temp;
+        temperature = data.temp;
+        weatherIcon = `http://api.openweathermap.org/img/w/${data.icon}.png`;
       });
-    }, 60 * 1000);
+    }, 90 * 1000);
 
     //Update UI intervals
     setInterval(()=> {
       if(isDisplayBtc){
         replaceText('area1', temperature + String.fromCharCode(176));
-        document.getElementById('svg').style.display = 'none';
+        document.getElementById('svg').src = weatherIcon;
         isDisplayBtc = false;
       }else{
-        replaceText('area1', bitcoin);
-        document.getElementById('svg').style.display = null;
+        replaceText('area1', `$${bitcoin}`);
+        document.getElementById('svg').src = './resources/BTC.svg';
         isDisplayBtc = true;
       }
     }, 8 * 1000);
