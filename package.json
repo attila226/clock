@@ -10,6 +10,6 @@
   "author": "Attila Buturla",
   "license": "ISC",
   "devDependencies": {
-    "electron": "^6.0.4"
+    "electron": "^15.5.5"
   }
 }
